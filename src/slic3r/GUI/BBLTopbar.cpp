@@ -286,26 +286,26 @@ void BBLTopbar::Init(wxFrame* parent)
     //wxBitmap open_bitmap = create_scaled_bitmap("topbar_open", nullptr, TOPBAR_ICON_SIZE);
     //wxAuiToolBarItem* tool_item = this->AddTool(wxID_OPEN, "", open_bitmap);
 
-    this->AddSpacer(FromDIP(10));
+    //this->AddSpacer(FromDIP(10));
 
-    wxBitmap save_bitmap = create_scaled_bitmap("topbar_save", nullptr, TOPBAR_ICON_SIZE);
-    wxAuiToolBarItem* save_btn = this->AddTool(wxID_SAVE, "", save_bitmap);
+    //wxBitmap save_bitmap = create_scaled_bitmap("topbar_save", nullptr, TOPBAR_ICON_SIZE);
+    //wxAuiToolBarItem* save_btn = this->AddTool(wxID_SAVE, "", save_bitmap);
 
-    this->AddSpacer(FromDIP(10));
+    //this->AddSpacer(FromDIP(10));
 
-    wxBitmap undo_bitmap = create_scaled_bitmap("topbar_undo", nullptr, TOPBAR_ICON_SIZE);
-    m_undo_item = this->AddTool(wxID_UNDO, "", undo_bitmap);
-    wxBitmap undo_inactive_bitmap = create_scaled_bitmap("topbar_undo_inactive", nullptr, TOPBAR_ICON_SIZE);
-    m_undo_item->SetDisabledBitmap(undo_inactive_bitmap);
+    //wxBitmap undo_bitmap = create_scaled_bitmap("topbar_undo", nullptr, TOPBAR_ICON_SIZE);
+    //m_undo_item = this->AddTool(wxID_UNDO, "", undo_bitmap);
+    //wxBitmap undo_inactive_bitmap = create_scaled_bitmap("topbar_undo_inactive", nullptr, TOPBAR_ICON_SIZE);
+    //m_undo_item->SetDisabledBitmap(undo_inactive_bitmap);
 
-    this->AddSpacer(FromDIP(10));
+    //this->AddSpacer(FromDIP(10));
 
-    wxBitmap redo_bitmap = create_scaled_bitmap("topbar_redo", nullptr, TOPBAR_ICON_SIZE);
-    m_redo_item = this->AddTool(wxID_REDO, "", redo_bitmap);
-    wxBitmap redo_inactive_bitmap = create_scaled_bitmap("topbar_redo_inactive", nullptr, TOPBAR_ICON_SIZE);
-    m_redo_item->SetDisabledBitmap(redo_inactive_bitmap);
+    //wxBitmap redo_bitmap = create_scaled_bitmap("topbar_redo", nullptr, TOPBAR_ICON_SIZE);
+    //m_redo_item = this->AddTool(wxID_REDO, "", redo_bitmap);
+    //wxBitmap redo_inactive_bitmap = create_scaled_bitmap("topbar_redo_inactive", nullptr, TOPBAR_ICON_SIZE);
+    //m_redo_item->SetDisabledBitmap(redo_inactive_bitmap);
 
-    this->AddSpacer(FromDIP(10));
+    //this->AddSpacer(FromDIP(10));
     //this->AddStretchSpacer(1);
 
     m_title_item = this->AddLabel(ID_TITLE, "", FromDIP(TOPBAR_TITLE_WIDTH));
@@ -376,9 +376,9 @@ void BBLTopbar::Init(wxFrame* parent)
     this->Bind(wxEVT_LEFT_DOWN, &BBLTopbar::OnMouseLeftDown, this);
     this->Bind(wxEVT_LEFT_UP, &BBLTopbar::OnMouseLeftUp, this);
     this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnOpenProject, this, wxID_OPEN);
-    this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnSaveProject, this, wxID_SAVE);
-    this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnRedo, this, wxID_REDO);
-    this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnUndo, this, wxID_UNDO);
+    //this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnSaveProject, this, wxID_SAVE);
+    //this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnRedo, this, wxID_REDO);
+    //this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnUndo, this, wxID_UNDO);
     //this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnModelStoreClicked, this, ID_MODEL_STORE);
     //this->Bind(wxEVT_AUITOOLBAR_TOOL_DROPDOWN, &BBLTopbar::OnPublishClicked, this, ID_PUBLISH);
 }
@@ -400,41 +400,41 @@ void BBLTopbar::OnOpenProject(wxAuiToolBarEvent& event)
     Plater* plater = main_frame->plater();
     plater->load_project();
 }
-
-void BBLTopbar::OnSaveProject(wxAuiToolBarEvent& event)
-{
-    MainFrame* main_frame = dynamic_cast<MainFrame*>(m_frame);
-    Plater* plater = main_frame->plater();
-    plater->save_project();
-}
-
-void BBLTopbar::OnUndo(wxAuiToolBarEvent& event)
-{
-    MainFrame* main_frame = dynamic_cast<MainFrame*>(m_frame);
-    Plater* plater = main_frame->plater();
-    plater->undo();
-}
-
-void BBLTopbar::OnRedo(wxAuiToolBarEvent& event)
-{
-    MainFrame* main_frame = dynamic_cast<MainFrame*>(m_frame);
-    Plater* plater = main_frame->plater();
-    plater->redo();
-}
-
-void BBLTopbar::EnableUndoRedoItems()
-{
-    this->EnableTool(m_undo_item->GetId(), true);
-    this->EnableTool(m_redo_item->GetId(), true);
-    Refresh();
-}
-
-void BBLTopbar::DisableUndoRedoItems()
-{
-    this->EnableTool(m_undo_item->GetId(), false);
-    this->EnableTool(m_redo_item->GetId(), false);
-    Refresh();
-}
+//
+//void BBLTopbar::OnSaveProject(wxAuiToolBarEvent& event)
+//{
+//    MainFrame* main_frame = dynamic_cast<MainFrame*>(m_frame);
+//    Plater* plater = main_frame->plater();
+//    plater->save_project();
+//}
+//
+//void BBLTopbar::OnUndo(wxAuiToolBarEvent& event)
+//{
+//    MainFrame* main_frame = dynamic_cast<MainFrame*>(m_frame);
+//    Plater* plater = main_frame->plater();
+//    plater->undo();
+//}
+//
+//void BBLTopbar::OnRedo(wxAuiToolBarEvent& event)
+//{
+//    MainFrame* main_frame = dynamic_cast<MainFrame*>(m_frame);
+//    Plater* plater = main_frame->plater();
+//    plater->redo();
+//}
+//
+//void BBLTopbar::EnableUndoRedoItems()
+//{
+//    this->EnableTool(m_undo_item->GetId(), true);
+//    this->EnableTool(m_redo_item->GetId(), true);
+//    Refresh();
+//}
+//
+//void BBLTopbar::DisableUndoRedoItems()
+//{
+//    this->EnableTool(m_undo_item->GetId(), false);
+//    this->EnableTool(m_redo_item->GetId(), false);
+//    Refresh();
+//}
 
 void BBLTopbar::SaveNormalRect()
 {

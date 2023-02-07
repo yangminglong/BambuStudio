@@ -34,9 +34,9 @@ public:
     void OnMouseCaptureLost(wxMouseCaptureLostEvent& event);
     void OnMenuClose(wxMenuEvent& event);
     void OnOpenProject(wxAuiToolBarEvent& event);
-    void OnSaveProject(wxAuiToolBarEvent& event);
-    void OnUndo(wxAuiToolBarEvent& event);
-    void OnRedo(wxAuiToolBarEvent& event);
+    //void OnSaveProject(wxAuiToolBarEvent& event);
+    //void OnUndo(wxAuiToolBarEvent& event);
+    //void OnRedo(wxAuiToolBarEvent& event);
     void OnModelStoreClicked(wxAuiToolBarEvent& event);
     void OnPublishClicked(wxAuiToolBarEvent &event);
 
@@ -54,8 +54,8 @@ public:
     void SetMaximizedSize();
     void SetWindowSize();
 
-    void EnableUndoRedoItems();
-    void DisableUndoRedoItems();
+    //void EnableUndoRedoItems();
+    //void DisableUndoRedoItems();
 
     void SaveNormalRect();
 

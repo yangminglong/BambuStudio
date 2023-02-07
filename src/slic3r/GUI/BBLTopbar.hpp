@@ -22,7 +22,11 @@ public:
     void OnFullScreen(wxAuiToolBarEvent& event);
     void OnCloseFrame(wxAuiToolBarEvent& event);
     void OnFileToolItem(wxAuiToolBarEvent& evt);
-    void OnDropdownToolItem(wxAuiToolBarEvent& evt);
+    void OnEditToolItem(wxAuiToolBarEvent& evt);
+    void OnViewToolItem(wxAuiToolBarEvent& evt);
+    void OnSetsToolItem(wxAuiToolBarEvent& evt);
+    void OnHelpToolItem(wxAuiToolBarEvent& evt);
+    //void OnDropdownToolItem(wxAuiToolBarEvent& evt);
     void OnMouseLeftDClock(wxMouseEvent& mouse);
     void OnMouseLeftDown(wxMouseEvent& event);
     void OnMouseLeftUp(wxMouseEvent& event);
@@ -39,8 +43,12 @@ public:
     wxAuiToolBarItem* FindToolByCurrentPosition();
 	
     void SetFileMenu(wxMenu* file_menu);
-    void AddDropDownSubMenu(wxMenu* sub_menu, const wxString& title);
-    void AddDropDownMenuItem(wxMenuItem* menu_item);
+    void SetEditMenu(wxMenu* edit_menu);
+    void SetViewMenu(wxMenu* view_menu);
+    void SetSetsMenu(wxMenu* sets_menu);
+    void SetHelpMenu(wxMenu* help_menu);
+    //void AddDropDownSubMenu(wxMenu* sub_menu, const wxString& title);
+    //void AddDropDownMenuItem(wxMenuItem* menu_item);
     wxMenu *GetTopMenu();
     void SetTitle(wxString title);
     void SetMaximizedSize();
@@ -54,11 +62,19 @@ public:
 private:
     wxFrame* m_frame;
     wxAuiToolBarItem* m_file_menu_item;
-    wxAuiToolBarItem* m_dropdown_menu_item;
+    wxAuiToolBarItem* m_edit_menu_item;
+    wxAuiToolBarItem* m_view_menu_item;
+    wxAuiToolBarItem* m_sets_menu_item;
+    wxAuiToolBarItem* m_help_menu_item;
+    //wxAuiToolBarItem* m_dropdown_menu_item;
     wxRect m_normalRect;
     wxPoint m_delta;
     wxMenu m_top_menu;
     wxMenu* m_file_menu;
+    wxMenu* m_edit_menu;
+    wxMenu* m_view_menu;
+    wxMenu* m_sets_menu;
+    wxMenu* m_help_menu;
     wxAuiToolBarItem* m_title_item;
     wxAuiToolBarItem* m_account_item;
     wxAuiToolBarItem* m_model_store_item;
@@ -73,5 +89,25 @@ private:
 
     int m_toolbar_h;
     bool m_skip_popup_file_menu;
-    bool m_skip_popup_dropdown_menu;
+    bool m_skip_popup_edit_menu;
+    bool m_skip_popup_view_menu;
+    bool m_skip_popup_sets_menu;
+    bool m_skip_popup_help_menu;
+    //bool m_skip_popup_dropdown_menu;
 };
+
+//
+//class TitleBar : public wxControl
+//{
+//public:
+//    TitleBar(wxWindow* parent);
+//    ~TitleBar() {}
+//
+//
+//    void Rescale();
+//    BBLTopbar* GetMenubar() { return &m_menuBar; }
+//private:
+//    BBLTopbar m_menuBar;
+//    wxBoxSizer* m_sizer;
+//
+//};

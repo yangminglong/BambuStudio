@@ -2217,17 +2217,23 @@ void MainFrame::init_menubar_as_editor()
         
 #ifndef __APPLE__
     m_topbar->SetFileMenu(fileMenu);
-    if (editMenu)
-        m_topbar->AddDropDownSubMenu(editMenu, _L("Edit"));
-    if (viewMenu)
-        m_topbar->AddDropDownSubMenu(viewMenu, _L("View"));
+    m_topbar->SetEditMenu(editMenu);
+    m_topbar->SetViewMenu(viewMenu);
+    m_topbar->SetHelpMenu(helpMenu);
+    //if (editMenu)
+    //    m_topbar->AddDropDownSubMenu(editMenu, _L("Edit"));
+    //if (viewMenu)
+    //    m_topbar->AddDropDownSubMenu(viewMenu, _L("View"));
     //BBS add Preference
-    
-    append_menu_item(
-        m_topbar->GetTopMenu(), wxID_ANY, _L("Preferences") + "\tCtrl+P", _L(""),
-        [this](wxCommandEvent &) {
-            PreferencesDialog dlg(this);
-            dlg.ShowModal();
+    wxMenu* setsMenu = nullptr;
+    if (m_plater != nullptr)
+    {
+        setsMenu = new wxMenu();
+        append_menu_item(
+            setsMenu, wxID_ANY, _L("Preferences") + "\tCtrl+P", _L(""),
+            [this](wxCommandEvent&) {
+                PreferencesDialog dlg(this);
+                dlg.ShowModal();
 #if ENABLE_GCODE_LINES_ID_IN_H_SLIDER
             if (dlg.seq_top_layer_only_changed() || dlg.seq_seq_top_gcode_indices_changed())
 #else
@@ -2236,11 +2242,14 @@ void MainFrame::init_menubar_as_editor()
                 plater()->refresh_print();
         },
         "", nullptr, []() { return true; }, this);
+    }
+    m_topbar->SetSetsMenu(setsMenu);
+
     //m_topbar->AddDropDownMenuItem(preference_item);
     //m_topbar->AddDropDownMenuItem(printer_item);
     //m_topbar->AddDropDownMenuItem(language_item);
     //m_topbar->AddDropDownMenuItem(config_item);
-    m_topbar->AddDropDownSubMenu(helpMenu, _L("Help"));
+    //m_topbar->AddDropDownSubMenu(helpMenu, _L("Help"));
 #else
     m_menubar->Append(fileMenu, wxString::Format("&%s", _L("File")));
     if (editMenu)

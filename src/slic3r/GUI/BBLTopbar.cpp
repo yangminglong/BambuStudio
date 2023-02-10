@@ -28,26 +28,71 @@ enum CUSTOM_ID
     ID_TITLE,
     ID_MODEL_STORE,
     ID_PUBLISH,
-    ID_TOOL_BAR = 3200,
     ID_AMS_NOTEBOOK,
 };
 
 class BBLTopbarArt : public wxAuiDefaultToolBarArt
 {
 public:
+    BBLTopbarArt();
     virtual void DrawLabel(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& item, const wxRect& rect) wxOVERRIDE;
     virtual void DrawBackground(wxDC& dc, wxWindow* wnd, const wxRect& rect) wxOVERRIDE;
     virtual void DrawButton(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& item, const wxRect& rect) wxOVERRIDE;
+private:
+    wxColour m_bgColor;
+
+    wxColour m_menuBgColorNor;
+    wxColour m_menuBgColorHover;
+    wxColour m_menuBgColorActive;
+
+    wxColour m_textColorNor;
+    wxColour m_textColorHover;
+    wxColour m_textColorActive;
+
+    wxColour m_btBgColorNor;
+    wxColour m_btBgColorHover;
+    wxColour m_btBgColorActive;
 };
+
+BBLTopbarArt::BBLTopbarArt()
+    : wxAuiDefaultToolBarArt()
+{
+    m_bgColor = wxColour(255,255,255);
+    
+    m_btBgColorNor    = wxColour(240, 244, 250);
+    m_btBgColorHover  = m_btBgColorNor.ChangeLightness(20);
+    m_btBgColorActive = m_btBgColorNor.ChangeLightness(40);
+
+    m_menuBgColorNor    = m_bgColor;
+    m_menuBgColorHover   = m_btBgColorNor.ChangeLightness(20);
+    m_menuBgColorActive = m_btBgColorNor.ChangeLightness(40);
+
+    m_textColorNor    = wxColour(20, 28, 41);
+    m_textColorHover  = wxColour(20, 28, 41);
+    m_textColorActive = wxColour(20, 28, 41);
+
+
+
+    //wxBitmap m_buttonDropDownBmp;
+    //wxBitmap m_disabledButtonDropDownBmp;
+    //wxBitmap m_overflowBmp;
+    //wxBitmap m_disabledOverflowBmp;
+    // 
+    // m_baseColour = wxColor();
+    //m_highlightColour = wxColour(240, 244, 250);
+    //wxFont m_font;
+
+}
 
 void BBLTopbarArt::DrawLabel(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& item, const wxRect& rect)
 {
     dc.SetFont(m_font);
-#ifdef __WINDOWS__
-    dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
-#else
-    dc.SetTextForeground(*wxWHITE);
-#endif
+    dc.SetTextForeground(m_textColorNor);
+//#ifdef __WINDOWS__
+//    dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
+//#else
+//    dc.SetTextForeground(*wxWHITE);
+//#endif
 
     wxAuiToolBar* toolbar = (wxAuiToolBar*)wnd;
     wxSize toolBarSize = toolbar->GetSize();
@@ -75,7 +120,9 @@ void BBLTopbarArt::DrawLabel(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& it
     //else {
     //    textX = rect.x + 1;
     //}
-
+    wxFont font = dc.GetFont();
+    
+    dc.SetFont(font.MakeBold());
     textY = rect.y + (rect.height - textHeight) / 2;
     dc.DrawText(item.GetLabel(), textX, textY);
     dc.DestroyClippingRegion();
@@ -84,8 +131,8 @@ void BBLTopbarArt::DrawLabel(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& it
 void BBLTopbarArt::DrawBackground(wxDC& dc, wxWindow* wnd, const wxRect& rect)
 {
     //dc.SetBrush(wxBrush(wxColour(38, 46, 48))); //
-    dc.SetBrush(wxBrush(wxColour(55, 66, 84))); //55, 66, 84
-    dc.SetPen(wxPen(wxColour(55, 66, 84))); //55, 66, 84
+    dc.SetBrush(wxBrush(wxColour(255, 255, 255))); //55, 66, 84
+    dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));  // 不绘制边框
     wxRect clipRect = rect;
     clipRect.y -= 8;
     clipRect.height += 8;
@@ -143,58 +190,100 @@ void BBLTopbarArt::DrawButton(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& i
             (rect.height / 2) -
             (textHeight / 2);
     }
+    
     bool isMenu = (int)ID_TOP_FILE_MENU == item.GetId() ||
                   (int)ID_TOP_EDIT_MENU == item.GetId() ||
                   (int)ID_TOP_VIEW_MENU == item.GetId() ||
                   (int)ID_TOP_SETS_MENU == item.GetId() ||
                   (int)ID_TOP_HELP_MENU == item.GetId();
 
-    double roundRadius = isMenu ? 0 : wnd->FromDIP(5);
-    if (!(item.GetState() & wxAUI_BUTTON_STATE_DISABLED))
-    {
-        if (item.GetState() & wxAUI_BUTTON_STATE_PRESSED)
-        {
-            dc.SetPen(wxPen(m_highlightColour));
-            dc.SetBrush(wxBrush(m_highlightColour.ChangeLightness(20)));
-            dc.DrawRoundedRectangle(rect, roundRadius);
-        }
-        else if ((item.GetState() & wxAUI_BUTTON_STATE_HOVER) || item.IsSticky())
-        {
-            dc.SetPen(wxPen(m_highlightColour));
-            dc.SetBrush(wxBrush(m_highlightColour.ChangeLightness(40)));
-
-            // draw an even lighter background for checked item hovers (since
-            // the hover background is the same color as the check background)
-            if (item.GetState() & wxAUI_BUTTON_STATE_CHECKED)
-                dc.SetBrush(wxBrush(m_highlightColour.ChangeLightness(50)));
-
-            dc.DrawRoundedRectangle(rect, roundRadius);
-        }
-        else if (item.GetState() & wxAUI_BUTTON_STATE_CHECKED)
-        {
-            // it's important to put this code in an else statement after the
-            // hover, otherwise hovers won't draw properly for checked items
-            dc.SetPen(wxPen(m_highlightColour));
-            dc.SetBrush(wxBrush(m_highlightColour.ChangeLightness(40)));
-            dc.DrawRoundedRectangle(rect, roundRadius);
-        }
-        else if (!isMenu && item.GetState() == (int)wxAUI_BUTTON_STATE_NORMAL) 
-        {
-            dc.SetPen(wxPen(wxColour(70, 79, 96)));
-            dc.SetBrush(wxBrush(wxColour(70, 79, 96)));
-            dc.DrawRoundedRectangle(rect, roundRadius);
-        }
+    bool isLogo = (int)ID_LOGO == item.GetId();
+    if (isLogo) {
+        // 不绘制背景色
     }
+    else if (isMenu) 
+    {
+        if ((item.GetState() & wxAUI_BUTTON_STATE_HOVER) || item.IsSticky())
+        {
+            dc.SetBrush(wxBrush(m_menuBgColorHover));
+            dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));
+        } 
+        else if (item.GetState() & wxAUI_BUTTON_STATE_PRESSED)
+        {
+            dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));
+            dc.SetBrush(wxBrush(m_menuBgColorActive));
+        }
+        else {
+            dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));
+            dc.SetBrush(wxBrush(m_menuBgColorNor));
+        }
+        dc.DrawRoundedRectangle(rect, 0);
+    }
+    else {
+        if ((item.GetState() & wxAUI_BUTTON_STATE_HOVER) || item.IsSticky())
+        {
+            dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));
+            dc.SetBrush(wxBrush(m_btBgColorHover));
+        }
+        else if (item.GetState() & wxAUI_BUTTON_STATE_PRESSED)
+        {
+            dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));
+            dc.SetBrush(wxBrush(m_btBgColorActive));
+        }
+        else {
+            dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));
+            dc.SetBrush(wxBrush(m_btBgColorNor));
+        }
+        dc.DrawRoundedRectangle(rect, wnd->FromDIP(4));
+    }
+
+    //if (!isMenu && !(item.GetState() & wxAUI_BUTTON_STATE_DISABLED))
+    //{
+    //    if (item.GetState() & wxAUI_BUTTON_STATE_PRESSED)
+    //    {
+    //        dc.SetPen(wxPen(m_btBgColorNor));
+    //        dc.SetBrush(wxBrush(m_btBgColorNor.ChangeLightness(20)));
+    //        dc.DrawRoundedRectangle(rect, roundRadius);
+    //    }
+    //    else if ((item.GetState() & wxAUI_BUTTON_STATE_HOVER) || item.IsSticky())
+    //    {
+    //        dc.SetPen(wxPen(m_btBgColorNor));
+    //        dc.SetBrush(wxBrush(m_btBgColorNor.ChangeLightness(40)));
+
+    //        // draw an even lighter background for checked item hovers (since
+    //        // the hover background is the same color as the check background)
+    //        if (item.GetState() & wxAUI_BUTTON_STATE_CHECKED)
+    //            dc.SetBrush(wxBrush(m_highlightColour.ChangeLightness(50)));
+
+    //        dc.DrawRoundedRectangle(rect, roundRadius);
+    //    }
+    //    else if (item.GetState() & wxAUI_BUTTON_STATE_CHECKED)
+    //    {
+    //        // it's important to put this code in an else statement after the
+    //        // hover, otherwise hovers won't draw properly for checked items
+    //        dc.SetPen(wxPen(m_btBgColorNor));
+    //        dc.SetBrush(wxBrush(m_btBgColorNor.ChangeLightness(40)));
+    //        dc.DrawRoundedRectangle(rect, roundRadius);
+    //    }
+    //    else if (!isMenu && item.GetState() == (int)wxAUI_BUTTON_STATE_NORMAL) 
+    //    {
+    //        dc.SetPen(wxPen(m_btBgColorNor));
+    //        dc.SetBrush(wxBrush(wxColour(70, 79, 96)));
+    //        dc.DrawRoundedRectangle(rect, roundRadius);
+    //    }
+    //}
 
     if (bmp.IsOk())
         dc.DrawBitmap(bmp, bmpX, bmpY, true);
 
+    dc.SetTextForeground(m_textColorNor);
     // set the item's text color based on if it is disabled
-#ifdef __WINDOWS__
-    dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
-#else
-    dc.SetTextForeground(*wxWHITE);
-#endif
+//#ifdef __WINDOWS__
+//    dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
+//#else
+//    dc.SetTextForeground(*wxWHITE);
+//#endif
+
     if (item.GetState() & wxAUI_BUTTON_STATE_DISABLED)
     {
         dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_GRAYTEXT));
@@ -224,13 +313,13 @@ void BBLTopbarArt::DrawButton(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& i
 
 
 BBLTopbar::BBLTopbar(wxFrame* parent) 
-    : wxAuiToolBar(parent, ID_TOOL_BAR, wxDefaultPosition, wxDefaultSize, wxAUI_TB_TEXT | wxAUI_TB_HORZ_TEXT)
+    : wxAuiToolBar(parent, ID_TOP_BAR, wxDefaultPosition, wxDefaultSize, wxAUI_TB_TEXT | wxAUI_TB_HORZ_TEXT)
 { 
     Init(parent);
 }
 
 BBLTopbar::BBLTopbar(wxWindow* pwin, wxFrame* parent)
-    : wxAuiToolBar(pwin, ID_TOOL_BAR, wxDefaultPosition, wxDefaultSize, wxAUI_TB_TEXT | wxAUI_TB_HORZ_TEXT) 
+    : wxAuiToolBar(pwin, ID_TOP_BAR, wxDefaultPosition, wxDefaultSize, wxAUI_TB_TEXT | wxAUI_TB_HORZ_TEXT)
 { 
     Init(parent);
 }

@@ -169,6 +169,8 @@ set(SLIC3R_GUI_SOURCES
     GUI/MainFrame.hpp
     GUI/BBLTopbar.cpp
     GUI/BBLTopbar.hpp
+    GUI/ACToolbar.cpp
+    GUI/ACToolbar.hpp
     GUI/Plater.cpp
     GUI/Plater.hpp
     GUI/PartPlate.cpp

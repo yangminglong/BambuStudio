@@ -26,6 +26,7 @@
 
 // BBS
 #include "BBLTopbar.hpp"
+#include "ACToolbar.hpp"
 
 
 #define ENABEL_PRINT_ALL 0
@@ -228,6 +229,7 @@ public:
 
     // BBS
     BBLTopbar* topbar() { return m_topbar; }
+    ACToolBar* toolbar() { return m_toolbar; }
 
     void        update_title();
 
@@ -312,6 +314,7 @@ public:
 
     // BBS. Replace title bar and menu bar with top bar.
     BBLTopbar*            m_topbar{ nullptr };
+    ACToolBar*            m_toolbar{ nullptr };
     PrintHostQueueDialog* printhost_queue_dlg() { return m_printhost_queue_dlg; }
     Plater*               m_plater { nullptr };
     //BBS: GUI refactor

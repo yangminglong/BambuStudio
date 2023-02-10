@@ -190,7 +190,7 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
     panel_topbar->Layout();
 #endif
 
-
+    m_toolbar = new ACToolBar(this);
 
     //wxAuiToolBar* toolbar = new wxAuiToolBar();
 /*
@@ -348,11 +348,12 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
     m_main_sizer = new wxBoxSizer(wxVERTICAL);
     wxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 #ifndef __APPLE__
-     sizer->Add(m_topbar, 0, wxEXPAND);
+    sizer->Add(m_topbar, 0, wxEXPAND);
 #else
-     sizer->Add(panel_topbar, 0, wxEXPAND);
+    sizer->Add(panel_topbar, 0, wxEXPAND);
 #endif // __WINDOWS__
 
+    sizer->Add(m_toolbar, 0, wxEXPAND);
 
     sizer->Add(m_main_sizer, 1, wxEXPAND);
     SetSizerAndFit(sizer);
@@ -678,7 +679,7 @@ void MainFrame::update_layout()
         m_tabpanel->InsertPage(tpPreview, m_plater, _L("Preview"), std::string("tab_preview_active"), std::string("tab_preview_active"));
         m_main_sizer->Add(m_tabpanel, 1, wxEXPAND | wxTOP, 0);
         m_plater->Show();
-        m_tabpanel->Show();
+        //m_tabpanel->Show();
 
         break;
     }
@@ -884,13 +885,20 @@ void MainFrame::init_tabpanel()
         }
 
 #ifndef __APPLE__
+        //if (sel == tp3DEditor) {
+        //    m_topbar->EnableUndoRedoItems();
+        //}
+        //else {
+        //    m_topbar->DisableUndoRedoItems();
+        //}
+#endif
         if (sel == tp3DEditor) {
-            m_topbar->EnableUndoRedoItems();
+            m_toolbar->EnableUndoRedoItems();
         }
         else {
-            m_topbar->DisableUndoRedoItems();
+            m_toolbar->DisableUndoRedoItems();
         }
-#endif
+
 
         /*switch (sel) {
         case TabPosition::tpHome:
@@ -1636,6 +1644,8 @@ void MainFrame::on_dpi_changed(const wxRect& suggested_rect)
     // BBS
     m_topbar->Rescale();
 #endif
+
+    m_toolbar->Rescale();
 
     m_tabpanel->Rescale();
 

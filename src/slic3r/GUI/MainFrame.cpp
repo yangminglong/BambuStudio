@@ -679,7 +679,7 @@ void MainFrame::update_layout()
         m_tabpanel->InsertPage(tpPreview, m_plater, _L("Preview"), std::string("tab_preview_active"), std::string("tab_preview_active"));
         m_main_sizer->Add(m_tabpanel, 1, wxEXPAND | wxTOP, 0);
         m_plater->Show();
-        //m_tabpanel->Show();
+        m_tabpanel->Show();
 
         break;
     }

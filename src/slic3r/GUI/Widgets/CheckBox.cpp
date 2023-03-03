@@ -17,7 +17,11 @@ CheckBox::CheckBox(wxWindow* parent)
 	//SetBackgroundStyle(wxBG_STYLE_TRANSPARENT);
 	if (parent)
 		SetBackgroundColour(parent->GetBackgroundColour());
-	Bind(wxEVT_TOGGLEBUTTON, [this](auto& e) { m_half_checked = false; update(); e.Skip(); });
+	Bind(wxEVT_TOGGLEBUTTON, [this](auto& e) { 
+        m_half_checked = false; 
+        update(); 
+        e.Skip(); 
+        });
 #ifdef __WXOSX__ // State not fully implement on MacOS
     Bind(wxEVT_SET_FOCUS, &CheckBox::updateBitmap, this);
     Bind(wxEVT_KILL_FOCUS, &CheckBox::updateBitmap, this);

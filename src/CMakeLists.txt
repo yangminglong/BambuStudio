@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 project(BambuStudio-native)
 
+include(PrecompiledHeader)
+
 add_subdirectory(build-utils)
 add_subdirectory(admesh)
 # add_subdirectory(avrdude)

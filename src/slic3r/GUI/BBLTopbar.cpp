@@ -132,12 +132,12 @@ void BBLTopbarArt::DrawBackground(wxDC& dc, wxWindow* wnd, const wxRect& rect)
 {
     //dc.SetBrush(wxBrush(wxColour(38, 46, 48))); //
     dc.SetBrush(wxBrush(wxColour(255, 255, 255))); //55, 66, 84
-    dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));  // 不绘制边框
+    dc.SetPen(wxPen(wxColour(255, 255, 255, 0)));  // without boardline
     wxRect clipRect = rect;
     clipRect.y -= 8;
     clipRect.height += 8;
     dc.SetClippingRegion(clipRect);
-    dc.DrawRectangle(rect);
+    dc.DrawRoundedRectangle(rect, 5);
     dc.DestroyClippingRegion();
 }
 
@@ -199,7 +199,7 @@ void BBLTopbarArt::DrawButton(wxDC& dc, wxWindow* wnd, const wxAuiToolBarItem& i
 
     bool isLogo = (int)ID_LOGO == item.GetId();
     if (isLogo) {
-        // 不绘制背景色
+        // without background
     }
     else if (isMenu) 
     {

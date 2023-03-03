@@ -203,6 +203,8 @@ set(SLIC3R_GUI_SOURCES
     GUI/ParamsDialog.hpp
     GUI/ParamsPanel.cpp
     GUI/ParamsPanel.hpp
+    GUI/ACParamsPanel.cpp
+    GUI/ACParamsPanel.hpp
     GUI/PrintHostDialogs.cpp
     GUI/PrintHostDialogs.hpp
     GUI/AmsWidgets.cpp
